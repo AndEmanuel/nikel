@@ -5,7 +5,7 @@ let data = {
     transactions: []
 };
 
-document.getElementById("button-logout").addEventListener("click", logout); // Acessa a minha classe button-logout no meu home.html adicionando o evento de clique no momento em que eu clicar sobre "Sair" na minha página, chamando a minha função logout abaixo.
+document.getElementById("button-logout").addEventListener("click", logout); // Access the button-logout class in my home.html and add a click event so that when I click on "Logout" on my page, it calls my logout function below.
 document.getElementById("transactions-button").addEventListener("click", function () {
     window.location.href = "transactions.html";
 });
@@ -13,7 +13,7 @@ document.getElementById("transactions-button").addEventListener("click", functio
 document.getElementById("transaction-form").addEventListener("submit", function (e) {
     e.preventDefault();
 
-    const value = parseFloat(document.getElementById("value-input").value); // Transformação de um valor Float, ou seja, um número que possa ter virgula.
+    const value = parseFloat(document.getElementById("value-input").value); // Transformation of a Float value, that is, a number that can contain a decimal separator (comma).
     const description = document.getElementById("description-input").value;
     const date = document.getElementById("date-input").value;
     const type = document.querySelector('input[name="type-input"]:checked').value;
@@ -21,10 +21,10 @@ document.getElementById("transaction-form").addEventListener("submit", function 
     data.transactions.unshift({
         value: value, type: type, description: description, date: date
     });
-    //Diferente do push que adiciona no final da lista o unshift adiciona por cima os elementos.
+    // Unlike push, which adds elements to the end of the list, unshift adds elements to the beginning of the list.
     saveDate(data);
-    e.target.reset(); //Limpa todos os campos do formulário, após salvar um lançamento.
-    myModal.hide(); // Função que fechará a modal no momento em que condluída a criação da conta.
+    e.target.reset(); //Clears all form fields after saving a transaction.
+    myModal.hide(); // Function that closes the modal once the account creation is completed.
 
     getCashIn();
     getCashOut();
@@ -36,19 +36,19 @@ document.getElementById("transaction-form").addEventListener("submit", function 
 checkLogged();
 
 function checkLogged() {
-    if (session) {   //Há um usuário salvo no localStorage? Se sim.
-        sessionStorage.setItem("logged", session);  //Seta quem está salvo na minha sessão.
+    if (session) {   //Is there a user saved in localStorage? If so.
+        sessionStorage.setItem("logged", session);  //Set whoever is saved in my session.
         logged = session;
     }
-    if (!logged) {    //Se  não existir alguém logado
+    if (!logged) {    //if there isn't anyone logged in
 
-        window.location.href = "index.html"; //Então redireciono para a tela index.html.
+        window.location.href = "index.html"; //Then I redirect to the index.html screen.
         return;
     }
 
-    const dataUser = localStorage.getItem(logged);  //Pega os dados do usuário logado e salva na variável dataUser.
-    if (dataUser) {   //Se tem dados do usuário logado
-        data = JSON.parse(dataUser) //Salvo em data o que eu encontrei no meu localStorage, convertendo o mesmo para objeto, por meio do JSON
+    const dataUser = localStorage.getItem(logged);  //Take the logged-in user's data and save it in the dataUser variable.
+    if (dataUser) {   //If there are logged-in user data
+        data = JSON.parse(dataUser) //Save in data what I found in my localStorage, converting it to an object, through JSON.
     }
     getCashIn();
     getCashOut();
@@ -56,27 +56,26 @@ function checkLogged() {
 }
 
 function logout() {
-    sessionStorage.removeItem("logged"); //Remove o item logged da minha sessionStorage.
-    localStorage.removeItem("session"); //Remove o item session que é o checkbox que mantém o usuário sempre logado
-
-    window.location.href = "index.html"; //Tag redireciona para a minha página index.html
+    sessionStorage.removeItem("logged"); //Remove the logged item from my sessionStorage.
+    localStorage.removeItem("session"); //Remove the session item which is the checkbox that keeps the user always logged in.
+    window.location.href = "index.html"; //Tag redirects to my index.html page
 }
 
 function getCashIn() {
-    const transactions = data.transactions; //Coleta todas as transações
+    const transactions = data.transactions; // Collects all transactions
 
-    const cashIn = transactions.filter((item) => item.type === "1");      //Percorre o Array para filtrar os itens do tipo 1;
+    const cashIn = transactions.filter((item) => item.type === "1");      // Run the Array to filter the items of type 1;
 
     if (cashIn.length) {
         let cashInHtml = ``;
         let limit = 0;
 
-        if (cashIn.length > 5) {    //Caso usuário tenha mais de 5 lançamentos.
-            limit = 5;              // O limite será somente 5.
+        if (cashIn.length > 5) {    // Case the user has more than 5 transactions.
+            limit = 5;              // The limit will be only 5.
         } else {
-            limit = cashIn.length; // Caso tenha menos que 5 lançamentos, então será mostrado os lançamentos que tem.
+            limit = cashIn.length; // Case the user has less than 5 transactions, then all will be displayed.
         }
-        for (let index = 0; index < limit; index++) {    // Executa até o limite, tudo o que estiver dentro do escopo.
+        for (let index = 0; index < limit; index++) {    // Executes everything within the scope until the limit is reached.
             cashInHtml += `
             <div class="row mb-4"> <!-- Margin button = mb -->
                                         <div class="col-12">
@@ -95,24 +94,25 @@ function getCashIn() {
             `
         }
 
-        document.getElementById("cash-in-list").innerHTML = cashInHtml; // pega o HTML que você criou com JavaScript e coloca dentro da div cash-in-list para mostrar as entradas de dinheiro na tela.
+        document.getElementById("cash-in-list").innerHTML = cashInHtml; // Take the HTML you created with JavaScript and put it inside the cash-in-list div to display the cash in transactions on the screen.
     }
 }
 function getCashOut() {
-    const transactions = data.transactions; //Coleta todas as transações
+    const transactions = data.transactions; // Collects all transactions.
 
-    const cashIn = transactions.filter((item) => item.type === "2");      //Percorre o Array para filtrar os itens do tipo 1;
+    const cashOut = transactions.filter((item) => item.type === "2");      // Run the Array to filter items of type 2;
 
     if (cashIn.length) {
         let cashInHtml = ``;
         let limit = 0;
 
-        if (cashIn.length > 5) {    //Caso usuário tenha mais de 5 lançamentos.
-            limit = 5;              // O limite será somente 5.
+        if (cashIn.length > 5) {    //Case the user has more than 5 transactions.
+            limit = 5;              // The limit will be only 5.
         } else {
-            limit = cashIn.length; // Caso tenha menos que 5 lançamentos, então será mostrado os lançamentos que tem.
+            limit = cashIn.length; // Case the user has less than 5 transactions, then all will be displayed.
         }
-        for (let index = 0; index < limit; index++) {    // Executa até o limite, tudo o que estiver dentro do escopo.
+        for (let index = 0; index < limit; index++) {    // Executes everything within the scope until the limit is reached.
+
             cashInHtml += `
             <div class="row mb-4"> <!-- Margin button = mb -->
                                         <div class="col-12">
@@ -131,7 +131,7 @@ function getCashOut() {
             `
         }
 
-        document.getElementById("cash-out-list").innerHTML = cashInHtml; // pega o HTML que você criou com JavaScript e coloca dentro da div cash-in-list para mostrar as entradas de dinheiro na tela.
+        document.getElementById("cash-out-list").innerHTML = cashInHtml; // Take the HTML you created with JavaScript and put it inside the cash-out-list div to display the cash out transactions on the screen.
     }
 }
 
@@ -146,14 +146,14 @@ function getTotal() {
         }
     });
 
-    document.getElementById("total").innerHTML = `R$ ${total.toFixed(2)}`; //Esse toFixed é para determinar o número de casas decimais, nesse caso é 2.
+    document.getElementById("total").innerHTML = `R$ ${total.toFixed(2)}`; //This toFixed is to determine the number of decimal places, in this case it is 2.
 }
 
 function saveDate(data) {
     localStorage.setItem(data.login, JSON.stringify(data));
     /**
-     * pega o objeto completo da conta: data
-     * transforma em string: JSON
-     * salva no localStorage usando o email como chave
+     * take the complete account object: data
+     * transform it into a string: JSON
+     * save it in localStorage using the email as a key
      */
 }
