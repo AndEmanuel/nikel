@@ -102,28 +102,28 @@ function getCashOut() {
 
     const cashOut = transactions.filter((item) => item.type === "2");      // Run the Array to filter items of type 2;
 
-    if (cashIn.length) {
-        let cashInHtml = ``;
+    if (cashOut.length) {
+        let cashOutHtml = ``;
         let limit = 0;
 
-        if (cashIn.length > 5) {    //Case the user has more than 5 transactions.
+        if (cashOut.length > 5) {    //Case the user has more than 5 transactions.
             limit = 5;              // The limit will be only 5.
         } else {
-            limit = cashIn.length; // Case the user has less than 5 transactions, then all will be displayed.
+            limit = cashOut.length; // Case the user has less than 5 transactions, then all will be displayed.
         }
         for (let index = 0; index < limit; index++) {    // Executes everything within the scope until the limit is reached.
 
-            cashInHtml += `
+            cashOutHtml += `
             <div class="row mb-4"> <!-- Margin button = mb -->
                                         <div class="col-12">
-                                            <h3 class="fs-2">R$ ${cashIn[index].value.toFixed(2)}</h3>
+                                            <h3 class="fs-2">R$ ${cashOut[index].value.toFixed(2)}</h3>
                                             <div class="container p-0"></div>
                                             <div class="row">
                                                 <div class="col-12 col-md-8">
-                                                    <p>${cashIn[index].description}</p>
+                                                    <p>${cashOut[index].description}</p>
                                                 </div>
                                                 <div class="col-12 col-md-3 d-flex justify-content-end">
-                                                    ${cashIn[index].date}
+                                                    ${cashOut[index].date}
                                                 </div>
                                             </div>
                                         </div>
@@ -131,7 +131,7 @@ function getCashOut() {
             `
         }
 
-        document.getElementById("cash-out-list").innerHTML = cashInHtml; // Take the HTML you created with JavaScript and put it inside the cash-out-list div to display the cash out transactions on the screen.
+        document.getElementById("cash-out-list").innerHTML = cashOutHtml; // Take the HTML you created with JavaScript and put it inside the cash-out-list div to display the cash out transactions on the screen.
     }
 }
 
